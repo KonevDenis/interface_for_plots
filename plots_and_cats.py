@@ -61,6 +61,48 @@ from tkinter.ttk import Radiobutton
 #         plt.plot(data_vrem[xp][(yp - R):(yp + R)])
 #         plt.title("Вертикальный профиль")
 #         plt.show()
+def graph_3d():
+    x_3d = []
+    for i in range(x-R, x+R):
+        x_3d.append(i)
+
+    y_3d = []
+    for i in range(y - R, y + R):
+        y_3d.append(i)
+    def z(x,y):
+        # for i in range(x-R, x+R):
+        #     for j in range(y-R, y+R):
+        return scidata[x][y]
+    x_3d, y_3d = np.meshgrid(x_3d, y_3d)
+    print(x_3d)
+    print(y_3d)
+    z_3d = []
+    Z = []
+    #z = f(x,y)
+#    print(z)
+    # for i in range(x-R, x+R):
+    #     for l in range(y-R, y+R):
+    #         z_3d.append(scidata[i][l])
+    #     z_3dn = np.asarray(z_3d, dtype=int)
+    #     Z.append(z_3dn)
+    #     z_3d = []
+    #     i = i+1
+    # Z = np.asarray(Z)
+    # print(Z)
+    # z_3dn = np.asarray(z_3d, dtype = int)
+    # for i in z_3dn:
+    #     z.append(i)
+    # print(z_3dn)
+    Z = z(x_3d,y_3d)
+    ax = plt.axes(projection='3d')
+
+    ax.scatter3D(x_3d, y_3d, Z)#, rstride=1, cstride=1,                    cmap='viridis', edgecolor='none')
+    ax.set_title('surface')
+    plt.show()
+
+
+
+
 
 
 def profile_x():
@@ -71,22 +113,17 @@ def profile_x():
     print(Y_value)
     print(X_value)
     star.close()
-    plt.plot(Y_value, X_value)
+    plt.plot(X_value, Y_value)
     plt.title("Горизонтальный профиль")
     plt.show()
 
 
 def profile_y():
-    #scidata = np.transpose(scidata)
-    Y1_value = []
-    for i in range(0, R):
-        Y1_value.append(0)
-        Y1_value[i] = scidata[y - (R-i)][x]
-    for i in range(0, R):
-        Y1_value.append(0)
-        Y1_value[R + i] = scidata[y + i][x]
+    scidata_tr = np.transpose(scidata)
+   # Y1_value = []
+    Y1_value = scidata_tr[y][x - R:x + R]  # 1954:1970
     X1_value = []
-    for i in range(x-R, x+R):
+    for i in range(x - R, x + R):
         X1_value.append(i)
     plt.plot(X1_value, Y1_value)
     plt.title("Вертикальный профиль")
@@ -94,7 +131,7 @@ def profile_y():
 
 
 def clicked():
-    global x, y, r, scidata, R, R_vnesh, file, star
+    global x, y, r, scidata, R, R_vnesh, star
     star = pf.open(txt.get(1.0, END).replace("\n", ""))
     scidata = star[0].data
     #print(scidata)
@@ -111,6 +148,9 @@ def clicked():
 
     if chk_Y_state.get():
         profile_y()
+
+    if chk_3D_state.get():
+        graph_3d()
     # print("3")
     # snimok =
 
