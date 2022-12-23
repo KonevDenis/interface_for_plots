@@ -62,42 +62,64 @@ from tkinter.ttk import Radiobutton
 #         plt.title("Вертикальный профиль")
 #         plt.show()
 def graph_3d():
-    x_3d = []
-    for i in range(x-R, x+R):
-        x_3d.append(i)
+    z_3d, Z = [], []
+    for i in range(y-R, y+R):
+        for k in range(x-R, x+R):
+            z_3d.append(scidata[i][k])
+        z_arr = np.asarray(z_3d, dtype = int)
+        Z.append(z_arr)
+        z_3d=[]
+        i = i+1
+    Z = np.asarray(Z)
 
+    print(Z)
+    x_3d = []
+    for i in range(x - R, x + R):
+        x_3d.append(i)
     y_3d = []
     for i in range(y - R, y + R):
         y_3d.append(i)
-    def z(x,y):
-        # for i in range(x-R, x+R):
-        #     for j in range(y-R, y+R):
-        return scidata[x][y]
-    x_3d, y_3d = np.meshgrid(x_3d, y_3d)
     print(x_3d)
     print(y_3d)
-    z_3d = []
-    Z = []
-    #z = f(x,y)
-#    print(z)
-    # for i in range(x-R, x+R):
-    #     for l in range(y-R, y+R):
-    #         z_3d.append(scidata[i][l])
-    #     z_3dn = np.asarray(z_3d, dtype=int)
-    #     Z.append(z_3dn)
-    #     z_3d = []
-    #     i = i+1
-    # Z = np.asarray(Z)
-    # print(Z)
-    # z_3dn = np.asarray(z_3d, dtype = int)
-    # for i in z_3dn:
-    #     z.append(i)
-    # print(z_3dn)
-    Z = z(x_3d,y_3d)
+    X, Y = np.meshgrid(x_3d,y_3d)
+    print(X)
+    print(Y)
+
+
+
+
+    #
+
+#     def z(x,y):
+#         # for i in range(x-R, x+R):
+#         #     for j in range(y-R, y+R):
+#         return scidata[x][y]
+#     x_3d, y_3d = np.meshgrid(x_3d, y_3d)
+#     print(x_3d)
+#     print(y_3d)
+#     z_3d = []
+#     Z = []
+#     #z = f(x,y)
+# #    print(z)
+#     # for i in range(x-R, x+R):
+#     #     for l in range(y-R, y+R):
+#     #         z_3d.append(scidata[i][l])
+#     #     z_3dn = np.asarray(z_3d, dtype=int)
+#     #     Z.append(z_3dn)
+#     #     z_3d = []
+#     #     i = i+1
+#     # Z = np.asarray(Z)
+#     # print(Z)
+#     # z_3dn = np.asarray(z_3d, dtype = int)
+#     # for i in z_3dn:
+#     #     z.append(i)
+#     # print(z_3dn)
+#     Z = z(x_3d,y_3d)
     ax = plt.axes(projection='3d')
 
-    ax.scatter3D(x_3d, y_3d, Z)#, rstride=1, cstride=1,                    cmap='viridis', edgecolor='none')
-    ax.set_title('surface')
+    ax.plot_surface(X, Y, Z,rstride=1, cstride=1,
+                cmap='viridis', edgecolor='none')#, rstride=1, cstride=1,                    cmap='viridis', edgecolor='none')
+    ax.set_title('3D graph')
     plt.show()
 
 
